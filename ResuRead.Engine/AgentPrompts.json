@@ -1,0 +1,18 @@
+{
+  "Agent": {
+    "LibraryFileName": "ResuRead.Models.OpenAI.dll",
+    "ProviderClassName": "ResuRead.Models.OpenAI.ChatGPT",
+    "ModelName": "chatgpt-4o",
+    "EndpointPath": "http://chatgpt",
+    "InterfaceType": "text"
+  },
+  "Prompts": {
+    "Initialization": "Pretend you're a recruiter",
+    "Request": "Scan this resume and extract fields",
+    "Reset": "Clear everything you know"
+  },
+  "Destination": {
+    "LibraryFileName": "ResuRead.Outputs.Csv.dll",
+    "ConfigurationJson": "ResuRead.Outputs.Csv.json"
+  }
+}
