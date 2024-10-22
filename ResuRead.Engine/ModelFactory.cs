@@ -22,8 +22,10 @@ namespace ResuRead.Engine
 
         private readonly Type? _modelType;
 
-        public ModelFactory(ILogger logger, IConfiguration configuration, IAgentModel agentModel)
+        public ModelFactory(ILogger logger, IConfiguration configuration)
         {
+            _configuration = configuration;
+
             _log = logger.ForContext<ModelFactory>();
 
             string? assemblyPath = configuration[Strings.AGENTCONFIG_LIBRARYFILENAME];
@@ -32,6 +34,8 @@ namespace ResuRead.Engine
             {
                 _log.Error($"{Strings.AGENTCONFIG_LIBRARYFILENAME} not defined in configuration.");
             }
+
+            assemblyPath = Path.GetFullPath(assemblyPath);
 
             if (!File.Exists(assemblyPath))
             {
@@ -49,7 +53,7 @@ namespace ResuRead.Engine
 
             try
             {
-                _modelAssembly = Assembly.Load(assemblyPath);
+                _modelAssembly = Assembly.LoadFile(assemblyPath);
             }
             catch (Exception ex)
             {
@@ -64,9 +68,7 @@ namespace ResuRead.Engine
                 // so do a search for the first type that implements the interface and use it.
                 // This saves us from having to know the class name... It will be the only one
                 // that implements the interface in the assembly anyway.
-                _modelType = _modelAssembly.ExportedTypes
-                    .Where(types => types.IsAssignableFrom(typeof(IAgentModel)))
-                    .FirstOrDefault();
+                _modelType = _modelAssembly.GetTypes().Where(t => t.IsSubclassOf(typeof(AgentModelBase))).First();
             }
             catch (Exception ex)
             {

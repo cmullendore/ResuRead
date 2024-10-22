@@ -21,6 +21,22 @@ namespace ResuRead.CLI
             builder.Configuration.GetSection(Strings.LOGGINGELEMENT);
 
             builder.Services.AddLogging(builder.Configuration.GetSection(Strings.LOGGINGELEMENT));
+
+            builder.Services.AddModelFactory();
+
+            Log.Debug("Building host");
+
+            var host = builder.Build();
+
+            ILogger log = host.Services.GetRequiredService<ILogger>();
+
+            log.Debug("Builder created.");
+
+            log.Debug("Retrieving ModelFactory.");
+
+            IModelFactory modelFactory = host.Services.GetRequiredService<IModelFactory>();
+
+            IAgentModel model = modelFactory.CreateAgentModel();
         }
     }
 }

@@ -11,13 +11,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">Service provider to add logger to.</param>
         /// <param name="config">Configuration to be provided to logger.</param>
-        public static void AddModelFactory(this IServiceCollection services,ILogger logger, IConfiguration config)
+        public static void AddModelFactory(this IServiceCollection services)
         {
-            IConfigurationSection agentConfig = config.GetSection(Strings.AGENTCONFIGELEMENT);
-
-            ModelFactory modelFactory = new ModelFactory(logger, config);
-
-            services.AddSingleton<IModelFactory>(modelFactory);
+            services.AddSingleton<IModelFactory, ModelFactory>();
         }
     }
 }

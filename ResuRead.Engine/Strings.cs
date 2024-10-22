@@ -16,9 +16,9 @@ namespace ResuRead.Engine
         public static string LOGGING_LEVEL = "LogLevel";
 
         public static string AGENTCONFIGELEMENT = "Agent";
-        public static string AGENTCONFIG_LIBRARYFILENAME = "LibraryFileName";
-        public static string AGENTCONFIG_CLASSNAME = "ProviderClassName";
-        public static string AGENTCONFIG_PARAMETERS = "Parameters";
+        public static string AGENTCONFIG_LIBRARYFILENAME = "Agent:LibraryFileName";
+        public static string AGENTCONFIG_CLASSNAME = "Agent:ProviderClassName";
+        public static string AGENTCONFIG_PARAMETERS = "Agent:Parameters";
 
         public static string DESTINATIONCONFIGELEMENT = "Destination";
         public static string DESTINATIONCONFIG_LIBRARYFILENAME = "LibraryFileName";
