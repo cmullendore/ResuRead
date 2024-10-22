@@ -1,13 +1,4 @@
 {
-  "Logging": {
-    "FilePath": "",
-    "LogLevel": {
-      "Default": "Debug",
-      "Microsoft": "Warning",
-      "Microsoft.Hosting.Lifetime": "Information"
-    },
-    "RollingIntervalDays": 1
-  },
   "Agent": {
     "LibraryFileName": "ResuRead.Models.OpenAI.dll",
     "ProviderClassName": "ResuRead.Models.OpenAI.ChatGPT",
@@ -17,16 +8,26 @@
       "InterfaceType": "text"
     }
   },
-  "Prompts": {
-    "Initialization": "Pretend you're a recruiter",
-    "Request": "Scan this resume and extract fields",
-    "Reset": "Clear everything you know"
-  },
   "Destination": {
     "LibraryFileName": "ResuRead.Outputs.Csv.dll",
     "ProviderClassName": "ResuRead.Models.OpenAI.ChatGPT",
     "Parameters": {
 
     }
-  }
+  },
+  "Logging": {
+    "FilePath": "",
+    "LogLevel": {
+      "Default": "Debug",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    },
+    "RollingIntervalDays": 1
+  },
+  "Prompts": {
+    "Initialization": "You will be provided with a resume. You will convert the uploaded resume into the following JSON format:\r\n\r\n {\r\n  \"CandidateName\": \"Candidate Name\",\r\n  \"ContactPhone\": \"(123) 123-1234\",\r\n  \"ContactEmail\": \"candidate_email@domain.com\",\r\n  \"WorkHistory\": [\r\n    {\r\n      \"CompanyName\": \"Company Name\",\r\n      \"StartDate\": \"2024-01-01\",\r\n      \"EndDate\": \"2024-12-01\",\r\n      \"RoleTitle\": \"Role Title\",\r\n      \"Achievements\": null\r\n    }\r\n  ],\r\n  \"SubmittedOn\": \"2024-10-22T21:08:57.7921198Z\",\r\n  \"Skills\": []\r\n}\r\n\r\nReturn only the json result and no other text.",
+    "Request": "",
+    "Reset": ""
+  },
+  "SecretsKey": "3ba04196-465b-48ce-98f4-801566411b1c"
 }

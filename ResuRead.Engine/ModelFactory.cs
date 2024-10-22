@@ -87,7 +87,7 @@ namespace ResuRead.Engine
 
         public IAgentModel CreateAgentModel()
         {
-            IAgentModel? model = Activator.CreateInstance(_modelType, _log, _configuration[Strings.AGENTCONFIG_PARAMETERS]) as IAgentModel;
+            IAgentModel? model = Activator.CreateInstance(_modelType, _log, _configuration.GetSection(Strings.AGENTCONFIG_PARAMETERS)) as IAgentModel;
 
             if (null == model)
             {

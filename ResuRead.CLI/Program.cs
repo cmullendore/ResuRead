@@ -17,7 +17,16 @@ namespace ResuRead.CLI
 
             builder.Configuration.Sources.Clear();
 
+            builder.Configuration.AddEnvironmentVariables();
+
             builder.Configuration.AddJsonFile(Strings.CONFIGFILENAME);
+
+            string? secretsKey = builder.Configuration.GetValue<string>("SecretsKey");
+
+            if (!string.IsNullOrWhiteSpace(secretsKey))
+            {
+                builder.Configuration.AddUserSecrets(secretsKey);
+            }
 
             builder.Configuration.GetSection(Strings.LOGGINGELEMENT);
 

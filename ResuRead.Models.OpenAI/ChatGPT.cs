@@ -35,7 +35,11 @@ namespace ResuRead.Models.OpenAI
                 EndDate = DateOnly.Parse("12 / 1 / 2024")
             });
 
-            _logger.Debug(JsonSerializer.Serialize(resumeResponse));
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.WriteIndented = true;
+            options.IncludeFields = true;
+
+            _logger.Debug(JsonSerializer.Serialize(resumeResponse, options));
 
             return resumeResponse;
         }

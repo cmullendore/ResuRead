@@ -10,14 +10,14 @@ namespace ResuRead.Engine
 
         public string? ContactEmail { get; set; }
 
-        public List<WorkHistoryItem> WorkHistory = new();
+        public List<WorkHistoryItem> WorkHistory { get; } = new List<WorkHistoryItem>();
 
         public DateTime SubmittedOn = DateTime.UtcNow;
 
         public List<string> Skills = new();
     }
 
-    public struct WorkHistoryItem
+    public class WorkHistoryItem
     {
         public string? CompanyName;
 
