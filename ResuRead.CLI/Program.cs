@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using ResuRead.Engine;
+using System.Text.Json;
 
 namespace ResuRead.CLI
 {
@@ -39,6 +40,10 @@ namespace ResuRead.CLI
             log.Debug("Creating instance of model.");
 
             IAgentModel model = modelFactory.CreateAgentModel();
+
+            var resp = model.GetResponse(new ResumeRequest());
+
+            Console.WriteLine(JsonSerializer.Serialize(resp));
         }
     }
 }

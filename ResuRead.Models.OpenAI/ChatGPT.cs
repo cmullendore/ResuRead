@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using ResuRead.Engine;
 using Serilog;
+using System.Text.Json;
 
 namespace ResuRead.Models.OpenAI
 {
@@ -18,17 +19,35 @@ namespace ResuRead.Models.OpenAI
 
         public override ResumeResponse GetResponse(ResumeRequest resumeContent)
         {
-            throw new NotImplementedException();
+            ResumeResponse resumeResponse = new ResumeResponse()
+            {
+                CandidateName = "Candidate Name",
+                ContactEmail = "candidate_email@domain.com",
+                ContactPhone = "(123) 123-1234",
+
+            };
+
+            resumeResponse.WorkHistory.Add(new WorkHistoryItem()
+            {
+                CompanyName = "Company Name",
+                RoleTitle = "Role Title",
+                StartDate = DateOnly.Parse("1/1/2024"),
+                EndDate = DateOnly.Parse("12 / 1 / 2024")
+            });
+
+            _logger.Debug(JsonSerializer.Serialize(resumeResponse));
+
+            return resumeResponse;
         }
 
         public override void Initialize(string modelName, string prompt)
         {
-            _logger.Debug("Initializing agent model.");
+            _logger.Debug($"Initializing agent model {modelName} with initialization prompt {prompt}.");
         }
 
         public override void Reset(string? prompt)
         {
-            throw new NotImplementedException();
+            // Do nothing
         }
 
         public override void Dispose()
