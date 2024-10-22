@@ -1,7 +1,11 @@
 {
   "Logging": {
     "FilePath": "",
-    "LogLevel": "Debug",
+    "LogLevel": {
+      "Default": "Debug",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    },
     "RollingIntervalDays": 1
   },
   "Agent": {

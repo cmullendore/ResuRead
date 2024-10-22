@@ -36,6 +36,8 @@ namespace ResuRead.CLI
 
             IModelFactory modelFactory = host.Services.GetRequiredService<IModelFactory>();
 
+            log.Debug("Creating instance of model.");
+
             IAgentModel model = modelFactory.CreateAgentModel();
         }
     }

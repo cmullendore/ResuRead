@@ -22,7 +22,15 @@ namespace Microsoft.Extensions.DependencyInjection
             if (loggingConfig != null && !string.IsNullOrWhiteSpace(loggingConfig[Strings.LOGGING_FILEPATH])) {
                 loggerConfig.WriteTo.File(loggingConfig[Strings.LOGGING_FILEPATH], rollingInterval: RollingInterval.Day, retainedFileCountLimit: 7);
             }
-            using var logger = loggerConfig.CreateLogger();
+
+            
+            // Setting this to debug during the development process.
+            // TODO Remove default Debug and allow configuration to define level.
+            loggerConfig.MinimumLevel.Debug();
+
+            ILogger logger = loggerConfig.CreateLogger();
+
+            logger.Information("Logging initialized.");
 
             services.AddSingleton<Serilog.ILogger>(logger);
         }
