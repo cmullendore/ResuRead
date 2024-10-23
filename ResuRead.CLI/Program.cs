@@ -48,7 +48,7 @@ namespace ResuRead.CLI
 
             log.Debug("Creating instance of model.");
 
-            IAgentModel model = modelFactory.CreateAgentModel();
+            IAgentModel model = modelFactory.CreateAgentModel().Result;
 
             var resp = model.GetResponse(new ResumeRequest());
 

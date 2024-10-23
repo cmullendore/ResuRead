@@ -21,7 +21,7 @@ namespace ResuRead.Engine
             _logger = logger;
         }
 
-        public abstract void Initialize(string modelName, string prompt);
+        public abstract Task InitializeAsync(string prompt);
 
         public abstract ResumeResponse GetResponse(ResumeRequest resumeContent);
 

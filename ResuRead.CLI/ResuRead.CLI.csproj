@@ -6,9 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PublishAot>true</PublishAot>
-    <InvariantGlobalization>true</InvariantGlobalization>
-	<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
-	<UserSecretsId>3ba04196-465b-48ce-98f4-801566411b1c</UserSecretsId>
+    <BaseOutputPath>D:\source\repos\ResuRead\bin</BaseOutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <UserSecretsId>3ba04196-465b-48ce-98f4-801566411b1c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

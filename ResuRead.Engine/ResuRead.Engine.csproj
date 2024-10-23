@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <BaseOutputPath>D:\source\repos\ResuRead\bin</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +14,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="System.ClientModel" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>

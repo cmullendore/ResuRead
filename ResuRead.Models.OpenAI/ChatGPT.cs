@@ -12,41 +12,57 @@ namespace ResuRead.Models.OpenAI
 {
     public class ChatGPT : AgentModelBase
     {
+        private readonly OpenAIClient client;
+
+        private readonly string? _modelName;
+
         public ChatGPT(ILogger logger, IConfiguration configuration) : base(logger, configuration) 
         {
-            _logger.ForContext<ChatGPT>();
+            //_logger.ForContext<ChatGPT>();
+
+            //client = new OAI.OpenAIClient(_configuration["ApiKey"]);
+
+            //_modelName = _configuration["ModelName"];
+
+            HttpClient httpClient = new HttpClient();
+
+            client = new OpenAIClient(httpClient);
         }
 
         public override ResumeResponse GetResponse(ResumeRequest resumeContent)
         {
-            ResumeResponse resumeResponse = new ResumeResponse()
-            {
-                CandidateName = "Candidate Name",
-                ContactEmail = "candidate_email@domain.com",
-                ContactPhone = "(123) 123-1234",
+        //    ResumeResponse resumeResponse = new ResumeResponse()
+        //    {
+        //        CandidateName = "Candidate Name",
+        //        ContactEmail = "candidate_email@domain.com",
+        //        ContactPhone = "(123) 123-1234",
 
-            };
+        //    };
 
-            resumeResponse.WorkHistory.Add(new WorkHistoryItem()
-            {
-                CompanyName = "Company Name",
-                RoleTitle = "Role Title",
-                StartDate = DateOnly.Parse("1/1/2024"),
-                EndDate = DateOnly.Parse("12 / 1 / 2024")
-            });
+        //    resumeResponse.WorkHistory.Add(new WorkHistoryItem()
+        //    {
+        //        CompanyName = "Company Name",
+        //        RoleTitle = "Role Title",
+        //        StartDate = DateOnly.Parse("1/1/2024"),
+        //        EndDate = DateOnly.Parse("12 / 1 / 2024")
+        //    });
 
-            JsonSerializerOptions options = new JsonSerializerOptions();
-            options.WriteIndented = true;
-            options.IncludeFields = true;
+        //    JsonSerializerOptions options = new JsonSerializerOptions();
+        //    options.WriteIndented = true;
+        //    options.IncludeFields = true;
 
-            _logger.Debug(JsonSerializer.Serialize(resumeResponse, options));
+        //    _logger.Debug(JsonSerializer.Serialize(resumeResponse, options));
 
-            return resumeResponse;
+            return new ResumeResponse();
         }
-
-        public override void Initialize(string modelName, string prompt)
+        
+        public override async Task InitializeAsync(string prompt)
         {
-            _logger.Debug($"Initializing agent model {modelName} with initialization prompt {prompt}.");
+            //_logger.Debug($"Initializing agent model {_modelName} with initialization prompt {prompt}.");
+
+            //OAICHAT.ChatClient chatClient = client.GetChatClient(_modelName);
+
+            //var chatCompletion = await chatClient.CompleteChatAsync(prompt);
         }
 
         public override void Reset(string? prompt)

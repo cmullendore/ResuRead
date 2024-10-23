@@ -14,10 +14,9 @@ namespace ResuRead.Engine
         /// <summary>
         /// Initialize the model with objective and bounding prompts.
         /// </summary>
-        /// <param name="modelName">The name of the model to be used by the provider.</param>
         /// <param name="prompt">The text of the prompt to be submitted to the model.</param>
-        /// <returns>Response to the initialization prompt submission.</returns>
-        public void Initialize(string modelName, string prompt);
+        /// <returns></returns>
+        public Task InitializeAsync(string prompt);
 
         /// <summary>
         /// Submit the resume content to the configured provider for processing and population of the ResumeResponse.

@@ -68,7 +68,7 @@ namespace ResuRead.Engine
                 // so do a search for the first type that implements the interface and use it.
                 // This saves us from having to know the class name... It will be the only one
                 // that implements the interface in the assembly anyway.
-                _modelType = _modelAssembly.GetTypes().Where(t => t.IsSubclassOf(typeof(AgentModelBase))).First();
+                _modelType = _modelAssembly.GetType(className);
             }
             catch (Exception ex)
             {
@@ -85,7 +85,7 @@ namespace ResuRead.Engine
 
         }
 
-        public IAgentModel CreateAgentModel()
+        public async Task<IAgentModel> CreateAgentModel()
         {
             IAgentModel? model = Activator.CreateInstance(_modelType, _log, _configuration.GetSection(Strings.AGENTCONFIG_PARAMETERS)) as IAgentModel;
 
@@ -95,6 +95,8 @@ namespace ResuRead.Engine
 
                 throw new NullReferenceException($"Failed to create an instance of model {_modelType.Name}");
             }
+
+            await model.InitializeAsync(_configuration[Strings.PROMPT_INITIALIZATION]);
 
             return model;
         }

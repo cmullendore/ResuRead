@@ -10,7 +10,7 @@ namespace ResuRead.Engine
 {
     public interface IModelFactory
     {
-        public IAgentModel CreateAgentModel();
+        public Task<IAgentModel> CreateAgentModel();
 
     }
 }

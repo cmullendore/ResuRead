@@ -20,6 +20,10 @@ namespace ResuRead.Engine
         public static string AGENTCONFIG_CLASSNAME = "Agent:ProviderClassName";
         public static string AGENTCONFIG_PARAMETERS = "Agent:Parameters";
 
+        public static string PROMPT_INITIALIZATION = "Prompts:Initialization";
+        public static string PROMPT_REQUEST = "Prompts:Initialization";
+        public static string PROMPT_RESET = "Prompts:Initialization";
+
         public static string DESTINATIONCONFIGELEMENT = "Destination";
         public static string DESTINATIONCONFIG_LIBRARYFILENAME = "LibraryFileName";
         public static string DESTINATIONCONFIG_CLASSNAME = "ProviderClassName";
