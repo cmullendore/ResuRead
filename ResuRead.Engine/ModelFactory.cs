@@ -53,7 +53,16 @@ namespace ResuRead.Engine
 
             try
             {
-                _modelAssembly = Assembly.LoadFile(assemblyPath);
+
+                _modelAssembly = Assembly.LoadFrom(assemblyPath);
+
+                var files = Directory.GetFiles(Path.GetDirectoryName(assemblyPath), "*.dll");
+
+                foreach (var file in files)
+                {
+                    AssemblyLoadContext.Default.LoadFromAssemblyPath(file);
+                }
+
             }
             catch (Exception ex)
             {
@@ -87,7 +96,11 @@ namespace ResuRead.Engine
 
         public async Task<IAgentModel> CreateAgentModel()
         {
-            IAgentModel? model = Activator.CreateInstance(_modelType, _log, _configuration.GetSection(Strings.AGENTCONFIG_PARAMETERS)) as IAgentModel;
+            //AssemblyDependencyResolver resolver = new AssemblyDependencyResolver(_configuration[Strings.AGENTCONFIG_LIBRARYFILENAME]);
+
+            object[] args = { _log, _configuration.GetSection(Strings.AGENTCONFIG_PARAMETERS) };
+
+            IAgentModel? model = _modelAssembly.CreateInstance(_modelType.FullName, true, BindingFlags.Default, null, args, null, null) as IAgentModel; //Activator.CreateInstance(_modelType, _log, _configuration.GetSection(Strings.AGENTCONFIG_PARAMETERS)) as IAgentModel;
 
             if (null == model)
             {
