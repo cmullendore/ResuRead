@@ -2,6 +2,11 @@
 
 namespace ResuRead.Engine
 {
+    /// <summary>
+    /// The structured response to be returned from the agent which can then
+    /// be used for direct integration into target systems or serialized into
+    /// structured JSON or XML.
+    /// </summary>
     public class ResumeResponse
     {
         public string? CandidateName { get; set; }

@@ -3,10 +3,7 @@
     "ResuRead.CLI": {
       "commandName": "Project",
       "commandLineArgs": "C:\\Users\\Chris\\OneDrive\\Documents\\Resume\\ResumeSpice\\Chris_Mullendore_Resume_2024.txt",
-      "workingDirectory": "D:\\source\\repos\\ResuRead\\bin\\Debug\\net8.0",
-      "environmentVariables": {
-        "openai-api-key": "sk-svcacct-iciG40q45z3go22BZ1VxqmSVKrj8kyesYlbGRMkj1cCYJM01BihU0Zy3ffLgl2Q6UX1kQT3BlbkFJFHP3J9bRb8mh_Q9ZXstDX4GwDCjV4xgbjJu0zuOQUu9Hon5pxojCNSPyiB3CLp1cDBpAA"
-      }
+      "workingDirectory": "D:\\source\\repos\\ResuRead\\bin\\Debug\\net8.0"
     }
   }
 }

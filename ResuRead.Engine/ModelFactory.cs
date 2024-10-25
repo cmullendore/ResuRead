@@ -96,8 +96,6 @@ namespace ResuRead.Engine
 
         public async Task<IAgentModel> CreateAgentModel()
         {
-            //AssemblyDependencyResolver resolver = new AssemblyDependencyResolver(_configuration[Strings.AGENTCONFIG_LIBRARYFILENAME]);
-
             object[] args = { _log, _configuration.GetSection(Strings.AGENTCONFIG_PARAMETERS) };
 
             IAgentModel? model = _modelAssembly.CreateInstance(_modelType.FullName, true, BindingFlags.Default, null, args, null, null) as IAgentModel; //Activator.CreateInstance(_modelType, _log, _configuration.GetSection(Strings.AGENTCONFIG_PARAMETERS)) as IAgentModel;
