@@ -23,7 +23,7 @@ namespace ResuRead.Engine
         /// </summary>
         /// <param name="resumeContent">The configured ResumeRequest containing either the resume text or the path to a resume file.</param>
         /// <returns>Structured populated response from the model based on the submitted resume.</returns>
-        public ResumeResponse GetResponse(ResumeRequest resumeContent);
+        public Task<ResumeResponse> GetResponseAsync(ResumeRequest resumeContent);
 
         /// <summary>
         /// Reset the model in preparation for the next request.

@@ -9,6 +9,65 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Assistants\**" />
+    <Compile Remove="Audio\**" />
+    <Compile Remove="Batches\**" />
+    <Compile Remove="Chat\**" />
+    <Compile Remove="Completions\**" />
+    <Compile Remove="Embeddings\**" />
+    <Compile Remove="Files\**" />
+    <Compile Remove="Fine_tuning\**" />
+    <Compile Remove="Images\**" />
+    <Compile Remove="ModelsRequests\**" />
+    <Compile Remove="Models\**" />
+    <Compile Remove="Moderations\**" />
+    <Compile Remove="OpenAPIs\**" />
+    <Compile Remove="Organization\**" />
+    <Compile Remove="Threads\**" />
+    <Compile Remove="Uploads\**" />
+    <Compile Remove="Vector_stores\**" />
+    <EmbeddedResource Remove="Assistants\**" />
+    <EmbeddedResource Remove="Audio\**" />
+    <EmbeddedResource Remove="Batches\**" />
+    <EmbeddedResource Remove="Chat\**" />
+    <EmbeddedResource Remove="Completions\**" />
+    <EmbeddedResource Remove="Embeddings\**" />
+    <EmbeddedResource Remove="Files\**" />
+    <EmbeddedResource Remove="Fine_tuning\**" />
+    <EmbeddedResource Remove="Images\**" />
+    <EmbeddedResource Remove="ModelsRequests\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Moderations\**" />
+    <EmbeddedResource Remove="OpenAPIs\**" />
+    <EmbeddedResource Remove="Organization\**" />
+    <EmbeddedResource Remove="Threads\**" />
+    <EmbeddedResource Remove="Uploads\**" />
+    <EmbeddedResource Remove="Vector_stores\**" />
+    <None Remove="Assistants\**" />
+    <None Remove="Audio\**" />
+    <None Remove="Batches\**" />
+    <None Remove="Chat\**" />
+    <None Remove="Completions\**" />
+    <None Remove="Embeddings\**" />
+    <None Remove="Files\**" />
+    <None Remove="Fine_tuning\**" />
+    <None Remove="Images\**" />
+    <None Remove="ModelsRequests\**" />
+    <None Remove="Models\**" />
+    <None Remove="Moderations\**" />
+    <None Remove="OpenAPIs\**" />
+    <None Remove="Organization\**" />
+    <None Remove="Threads\**" />
+    <None Remove="Uploads\**" />
+    <None Remove="Vector_stores\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ChatGPTKiota.cs" />
+    <Compile Remove="OpenAIClient.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,21 +75,19 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Kiota.Bundle" Version="1.13.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NSwag.ApiDescription.Client" Version="13.18.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="OpenAI" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ResuRead.Engine\ResuRead.Engine.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="OpenAPIs\openapi.yaml" ClassName="OpenAIClient" />
   </ItemGroup>
 
 </Project>

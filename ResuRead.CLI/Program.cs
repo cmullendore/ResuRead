@@ -13,6 +13,26 @@ namespace ResuRead.CLI
 
         static void Main(string[] args)
         {
+            string? resumePath = string.Empty;
+
+            while (args.Length == 0 && string.IsNullOrWhiteSpace(resumePath) && !File.Exists(resumePath))
+            {
+                Console.WriteLine("Please provide the full path to the resume to be analyzed and press enter:");
+                resumePath = Console.ReadLine();
+
+                if (!File.Exists(resumePath))
+                {
+                    Console.WriteLine("A file could not be located on that path. Please try again.");
+                }
+
+            }
+
+            if (args.Length > 0) {
+                 resumePath = args[0];
+            }
+        
+
+
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
             builder.Configuration.Sources.Clear();
@@ -50,7 +70,12 @@ namespace ResuRead.CLI
 
             IAgentModel model = modelFactory.CreateAgentModel().Result;
 
-            var resp = model.GetResponse(new ResumeRequest());
+            ResumeRequest resumeRequest = new ResumeRequest()
+            {
+                ResumeFilePath = resumePath
+            };
+
+            var resp = model.GetResponseAsync(resumeRequest).Result;
 
             Console.WriteLine(JsonSerializer.Serialize(resp));
         }
