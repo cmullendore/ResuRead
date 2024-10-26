@@ -15,23 +15,23 @@ namespace ResuRead.Engine
 
         public string? ContactEmail { get; set; }
 
-        public List<WorkHistoryItem> WorkHistory { get; } = new List<WorkHistoryItem>();
+        public List<WorkHistoryItem> WorkHistory { get; set; } = new();
 
         public DateTime SubmittedOn = DateTime.UtcNow;
 
-        public List<string> Skills = new();
+        public List<string> Skills { get; set; } = new();
     }
 
     public class WorkHistoryItem
     {
-        public string? CompanyName;
+        public string? CompanyName { get; set; }
 
-        public DateOnly? StartDate;
+        public DateOnly? StartDate { get; set; }
 
-        public DateOnly? EndDate;
+        public DateOnly? EndDate { get; set; }
 
-        public string? RoleTitle;
+        public string? RoleTitle { get; set; }
 
-        public string? Achievements;
+        public string? Achievements { get; set; }
     }
 }

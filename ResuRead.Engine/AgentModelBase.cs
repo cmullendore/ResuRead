@@ -23,7 +23,7 @@ namespace ResuRead.Engine
 
         public abstract Task InitializeAsync(string prompt);
 
-        public abstract Task<ResumeResponse> GetResponseAsync(ResumeRequest resumeContent);
+        public abstract Task<ResumeResponse?> GetResponseAsync(ResumeRequest resumeContent);
 
         public abstract void Reset(string? prompt);
 

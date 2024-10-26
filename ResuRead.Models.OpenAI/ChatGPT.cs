@@ -14,6 +14,7 @@ using OpenAI;
 using OpenAI.Chat;
 using System.ClientModel;
 using OpenAI.VectorStores;
+using System.Net.Http.Headers;
 
 #pragma warning disable OPENAI001
 namespace ResuRead.Models.OpenAI
@@ -44,7 +45,7 @@ namespace ResuRead.Models.OpenAI
         /// <param name="resumeContent">The ResumeContent object containing the ResumeFilePath of the resume to be uploaded.
         /// This implementation ignores the ResumeText element. Only file paths will be accepted.</param>
         /// <returns></returns>
-        public override async Task<ResumeResponse> GetResponseAsync(ResumeRequest resumeContent)
+        public override async Task<ResumeResponse?> GetResponseAsync(ResumeRequest resumeContent)
         {
             // Ensure we have a proper file path.
             // TODO: Limit to specific file types.
@@ -56,7 +57,17 @@ namespace ResuRead.Models.OpenAI
                 _logger.Error($"Could not locate file {resumeContent.ResumeFilePath}.");
             }
 
+            _logger.Information("Uploading file to ChatGPT");
+
             OpenAIFile resumeUpload = await fileClient.UploadFileAsync(resumeContent.ResumeFilePath, FileUploadPurpose.Assistants);
+
+            while (resumeUpload.Status == FileStatus.Uploaded)
+            {
+                _logger.Information("Waiting for uploaded file to be accepted...");
+
+                Thread.Sleep(1000);
+                resumeUpload = await fileClient.GetFileAsync(resumeUpload.Id);
+            }
 
             VectorStoreClient vectorClient = openAIClient.GetVectorStoreClient();
 
@@ -64,26 +75,57 @@ namespace ResuRead.Models.OpenAI
 
             _logger.Debug($"Created vector store id {vectorStore.VectorStoreId}");
 
-            var addVectorFileResult = vectorClient.AddFileToVectorStore(vectorStore.VectorStoreId, resumeUpload.Id, true);
+            var addVectorFileResult = await vectorClient.AddFileToVectorStoreAsync(vectorStore.VectorStoreId, resumeUpload.Id, true);
 
-            await addVectorFileResult.WaitForCompletionAsync();
+            while (!addVectorFileResult.Status.HasValue || addVectorFileResult.Status.Value == VectorStoreFileAssociationStatus.InProgress)
+            {
+                _logger.Information("Waiting for uploaded file to be processed...");
+
+                Thread.Sleep(1000);
+                await addVectorFileResult.UpdateStatusAsync();
+            }
 
             var createOptions = new AssistantCreationOptions()
             {
                 Name = "ResuRead",
                 Instructions = initializationPrompt,
-
+                Tools =
+                {
+                    new FileSearchToolDefinition()
+                },
+                ToolResources = new ToolResources()
+                {
+                    FileSearch = new FileSearchToolResources()
+                    {
+                        VectorStoreIds =
+                        {
+                            vectorStore.VectorStoreId
+                        }
+                    }
+                }
             };
-            createOptions.Tools.Add(ToolDefinition.CreateFileSearch());
-            createOptions.ToolResources = new ToolResources();
-            createOptions.ToolResources.FileSearch = new FileSearchToolResources();
-            createOptions.ToolResources.FileSearch.VectorStoreIds.Add(vectorStore.VectorStoreId);
-            
 
             Assistant assistant = await assistantClient.CreateAssistantAsync(_modelName, createOptions);
             
-            AssistantThread thread = await assistantClient.CreateThreadAsync();
+            AssistantThread thread = await assistantClient.CreateThreadAsync(new ThreadCreationOptions()
+            {
+                 InitialMessages = {
+                    new ThreadInitializationMessage(MessageRole.User, [
+                            initializationPrompt
+                        ])
+                 }, 
+                ToolResources = new ToolResources()
+                {
+                     FileSearch = new()
+                     {
+                          VectorStoreIds = {
+                             vectorStore.VectorStoreId
+                         }
+                     }
+                }
+            });
 
+            _logger.Information("Analyzing file.");
 
             ClientResult<ThreadRun> run = await assistantClient.CreateRunAsync(thread.Id, assistant.Id);
 
@@ -91,19 +133,47 @@ namespace ResuRead.Models.OpenAI
             {
                 Thread.Sleep(TimeSpan.FromSeconds(1));
                 run = assistantClient.GetRun(thread.Id, run.Value.Id);
-            } while (!run.Value.Status.IsTerminal);
+            }
+            while (!run.Value.Status.IsTerminal);
+
+            _logger.Information("Retrieving result.");
 
             var messages = assistantClient.GetMessages(thread.Id);
 
-            foreach (var message in messages)
+            ThreadMessage? lastMessage = messages.OrderBy(m => m.CreatedAt).LastOrDefault();
+
+            if (lastMessage == null)
             {
-                foreach (var text in message.Content)
-                {
-                    _logger.Debug(text.Text);
-                }
+                _logger.Error("No response was received from ChatGPT.");
+
+                return null;
             }
 
-            return new ResumeResponse();
+
+            _logger.Information("Performing cleanup.");
+
+            _ = await fileClient.DeleteFileAsync(resumeUpload.Id);
+            _ = await vectorClient.DeleteVectorStoreAsync(vectorStore.VectorStoreId);
+            _ = await assistantClient.DeleteAssistantAsync(assistant.Id);
+
+            _logger.Information("Parsing result into native object for return.");
+
+            string result = lastMessage.Content[0].Text;
+
+            result = result.Replace("```json", null).Replace("```", null);
+
+            ResumeResponse? response = null;
+
+            try
+            {
+                response = JsonSerializer.Deserialize(result, typeof(ResumeResponse)) as ResumeResponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"Failed to parse JSON response: {ex.Message}");
+            }
+
+            return response;
         }
         
         public override async Task InitializeAsync(string prompt)
