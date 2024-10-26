@@ -160,13 +160,21 @@ namespace ResuRead.Models.OpenAI
 
             string result = lastMessage.Content[0].Text;
 
-            result = result.Replace("```json", null).Replace("```", null);
+
+            // ChatGPT escapes the JSON as a comment. Remove the comment fields.
+            // Need to also forcibly escape / to // in the output to prevent deserialization errors.
+            result = result.Replace("```json", null).Replace("```", null).Replace("/", "//");
+
+            _logger.Debug($"JSON string response: \n {result}");
 
             ResumeResponse? response = null;
 
             try
             {
-                response = JsonSerializer.Deserialize(result, typeof(ResumeResponse)) as ResumeResponse;
+                response = JsonSerializer.Deserialize<ResumeResponse>(result, new JsonSerializerOptions()
+                {
+                     
+                }) as ResumeResponse;
             }
             catch (Exception ex)
             {

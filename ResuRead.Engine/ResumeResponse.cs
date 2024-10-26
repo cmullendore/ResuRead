@@ -26,12 +26,17 @@ namespace ResuRead.Engine
     {
         public string? CompanyName { get; set; }
 
-        public DateOnly? StartDate { get; set; }
+        // Would prefer StartDate and EndDate to be DateOnly fields but
+        // if someone uses a string such as "Present" or "Current" for end date,
+        // the conversion will fail. Using string allows these values.
+        // It will be up to the receiver to convert these to true numeric Date
+        // objects and handle the non-date values.
+        public string? StartDate { get; set; }
 
-        public DateOnly? EndDate { get; set; }
+        public string? EndDate { get; set; }
 
         public string? RoleTitle { get; set; }
 
-        public string? Achievements { get; set; }
+        public List<string>? Achievements { get; set; }
     }
 }
