@@ -30,8 +30,6 @@ namespace ResuRead.CLI
             if (args.Length > 0) {
                  resumePath = args[0];
             }
-        
-
 
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
@@ -77,7 +75,13 @@ namespace ResuRead.CLI
 
             var resp = model.GetResponseAsync(resumeRequest).Result;
 
-            Console.WriteLine(JsonSerializer.Serialize(resp));
+            log.Information($"Completed! JSON result:\n");
+
+            log.Information(JsonSerializer.Serialize(resp, new JsonSerializerOptions() { WriteIndented = true}));
+
+            Console.WriteLine("Conversion Complete. Press any key to exit.");
+
+            Console.ReadKey();
         }
     }
 }
